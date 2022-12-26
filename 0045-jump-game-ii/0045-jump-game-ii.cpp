@@ -17,10 +17,11 @@ int jump(vector<int> &nums) {
     while (!q.empty()) {
         if (q.front() == n - 1)return v[q.front()] ;
         int x = nums[q.front()];
-        for (int j = 1; j <= x; ++j) {
+        for (int j = i-q.front(); j <= x; ++j) {
             if (j + q.front() >= n - 1)return v[q.front()] + 1;
             if(v[j + q.front()]==1e9)q.push(j + q.front());
             v[j + q.front()] = min(v[j + q.front()],v[q.front()] + 1);
+            i = j + q.front();
         }
         
         q.pop();
