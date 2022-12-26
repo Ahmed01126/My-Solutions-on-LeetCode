@@ -4,16 +4,20 @@ public:
 #define ll long long
   
 #define all(v)        v.begin(), v.end()
-int dp[55000];
-bool goDp(vector<int>& arr, int i){
-    if(i<0||i>arr.size()-1)return 0;
-    if(arr[i]==0)return 1;
-    if(dp[i]!=-1)return dp[i];
-    dp[i]=0;
-    return dp[i] = goDp(arr,i+arr[i])|| goDp(arr,i-arr[i]);
+
+int dp[50005];
+
+int goDp(vector<int> &arr, int i) {
+    if (i < 0 || i >= arr.size())return 0;
+    if (dp[i] != -1)return dp[i];
+    if (arr[i] == 0)return 1;
+    dp[i] = 0;
+    return dp[i] = goDp(arr, i + arr[i]) || goDp(arr, i - arr[i]);
+    
 }
-bool canReach(vector<int>& arr, int start) {
-    memset(dp,-1,sizeof(dp));
-    return goDp(arr,start);
+
+bool canReach(vector<int> &arr, int start) {
+    memset(dp, -1, sizeof(dp));
+    return goDp(arr, start);
 }
 };
