@@ -9,7 +9,7 @@ const ll N = 5e4 + 50, NN = 105, mod = 1e9 + 7;
 
 vector<int> spiralOrder(vector<vector<int>> &matrix) {
     int n = matrix.size(), m = matrix[0].size();
-    // if(n==1)return matrix[0];
+    if(n==1)return matrix[0];
     vector<int> ans;
     int sn = 0, sm = 0;
     vector<vector<int>> vis(n + 2, vector<int>(m + 2, -200));
