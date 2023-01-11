@@ -1,38 +1,25 @@
 class Solution {
 public:
-   #define ll long long
-static const ll N = 2e5, NN = 105, mod = 1e9 + 7;
-#define all(v)        v.begin(), v.end()
-
-void dfs(int i, vector<int> edges[], vector<int> &par) {
-    for (auto item : edges[i]) {
-        if (item!=par[i]) {
-            par[item] = i;
-            dfs(item, edges, par);
+    int dfs(int node, int parent, vector<vector<int>>& adj, vector<bool>& hasApple) {
+        int totalTime = 0, childTime = 0;
+        for (auto child : adj[node]) {
+            if (child == parent) continue;
+            childTime = dfs(child, node, adj, hasApple);
+            // childTime > 0 indicates subtree of child has apples. Since the root node of the
+            // subtree does not contribute to the time, even if it has an apple, we have to check it
+            // independently.
+            if (childTime || hasApple[child]) totalTime += childTime + 2;
         }
-    }
-}
 
-int minTime(int n, vector<vector<int>> &edges, vector<bool> &hasApple) {
-    vector<int> par(n + 5);
-    vector<bool> vis(n + 5, 0);
-    par[0] = -1;
-    vector<int> adj[n+5];
-    for (auto i : edges)adj[i[0]].push_back(i[1]), adj[i[1]].push_back(i[0]);
-    dfs(0, adj, par);
-    ll cnt = 0;
-    map<pair<int, int>, bool> mp;
-    for (int i = 0; i < n; ++i) {
-        if (hasApple[i] == 0)continue;
-        int x = i;
-        while (par[x] != -1) {
-            if (mp[{x, par[x]}] == 0)++cnt;
-            mp[{x, par[x]}] = 1;
-            x = par[x];
-        }
+        return totalTime;
     }
-    return cnt * 2;
-}
- 
-   
+
+    int minTime(int n, vector<vector<int>>& edges, vector<bool>& hasApple) {
+        vector<vector<int>> adj(n);
+        for (auto& edge : edges) {
+            adj[edge[0]].push_back(edge[1]);
+            adj[edge[1]].push_back(edge[0]);
+        }
+        return dfs(0, -1, adj, hasApple);
+    }
 };
