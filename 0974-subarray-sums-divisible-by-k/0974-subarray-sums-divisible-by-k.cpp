@@ -7,7 +7,7 @@ public:
     mp[0] = 1;
     for (int i = 0; i < n; ++i) {
         sum += nums[i];
-        if (mp[(sum % k + k)%k] > 0)cnt += mp[(sum % k + k)%k], cout << i << " " << sum << endl;
+        if (mp[(sum % k + k)%k] > 0)cnt += mp[(sum % k + k)%k];
         mp[(sum % k + k)%k]++;
     }
     return cnt;
