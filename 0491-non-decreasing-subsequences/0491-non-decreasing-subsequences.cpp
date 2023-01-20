@@ -4,12 +4,10 @@ public:
     if (i == n)return;
     if (x.empty() || v[i] >= x.back()) {
         x.push_back(v[i]);
-        // cout << v[i]<< " ";
         backtrack(i + 1, n, v, s, x);
         if(x.size()>1)s.insert(x);
         x.pop_back();
     }
-        // cout <<endl;
     backtrack(i + 1, n, v, s, x);
     
 }
