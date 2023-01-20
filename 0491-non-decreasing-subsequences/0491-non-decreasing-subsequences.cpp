@@ -1,6 +1,6 @@
 class Solution {
 public:
-    void backtrack(int i, int n, vector<int> &v, set<vector<int>> &s, vector<int> &x) {
+    void backtrack(int i, const int n, const vector<int> &v, set<vector<int>> &s, vector<int> &x) {
     if (i == n)return;
     if (x.empty() || v[i] >= x.back()) {
         x.push_back(v[i]);
