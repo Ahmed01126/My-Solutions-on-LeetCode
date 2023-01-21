@@ -1,53 +1,56 @@
 class Solution {
 public:
-    bool valid(string s){
-    string x="";
-    for (int i = 0; i < s.size(); ++i) {
-        if(s[i]=='.'){
-            if(x.empty())return 0;
-            if(x.size()>1&& x[0]=='0')return 0;
-            long long a = stoll(x);
-            if(a>255)return 0;
-            x="";
+    bool check(string s){
+        int n=s.size();
+        //if the size of string is 1 that is always possible so return true
+        if(n==1){
+            return true;
         }
-        else x+=s[i];
+        //if we have length >3 or string starts with 0 return false
+        if(n>3||s[0]=='0'){
+            return false;
+        }
+        //we are converting string to integer to check if it is less than equalto 255
+        int val=stoi(s);
+        if(val>255){
+            return false;
+        }
+        //return true at last
+        return true;
     }
-    if(x.empty())return 0;
-    if(x.size()>1&& x[0]=='0')return 0;
-    long long a = stoll(x);
-    if(a>255)return 0;
-    return 1;
-}
-vector<string> restoreIpAddresses(string s) {
-    vector<string> v;
-    if (s.size() > 12 || s.size() < 4)return v;
-    string x = "";
-    for (int i = 0; i < s.size(); ++i) {
-        x += s[i];
-        if (i < 3)x += '.';
-    }
-    int n = x.size();
-    set<string>st;
-    for (int i = 0; i < n -1; ++i) {
-        string b = x;
-        for (int j = 2; j < n - 1; ++j) {
-            string a = x;
-            // if(i>=j)continue;
-            for (int k = 4; k < n - 1; ++k) {
-                if(x[k]!='.')continue;
-                if(valid(x)==1)st.insert(x);
-                // cout << x <<" ";
-                swap(x[k],x[k+1]);
+    vector<string> restoreIpAddresses(string s) {
+        int n=s.size();
+        //we will store our ans in ans vector of strings
+        vector<string>ans;
+        //the max length of the ip address could be 12 as 255.255.255.255 so 
+        //all the string s with size greater than 12 can have ans
+        if(n>12){
+            return ans;
+        }
+        //now we have our string of length 12 or less than 12 so now 
+            //1. we have to spit the s in parts such that it satisfy the ip address conditions
+            //2. if all 4 strings satisfy the condition we will push into ans vector
+        
+        for(int i=1;i<=3;i++){//for the length before first '.'
+            for(int j=1;j<=3;j++){//for the length between first and second '.'
+                for(int k=1;k<=3;k++){//for the length between second and third '.'
+                    //checking condition if the last segment is of length 3 or less
+                    if(i+j+k<n&&i+j+k+3>=n){
+                        //dividing the s int substrings 
+                        string a=s.substr(0,i);
+                        string b=s.substr(i,j);
+                        string c=s.substr(j+i,k);
+                        string d=s.substr(i+j+k);
+                        //if all the substring satisfy the check function condition 
+                        //then we will push into ans vector 
+                        if(check(a)&&check(b)&&check(c)&&check(d)){
+                            ans.push_back(a+"."+b+"."+c+"."+d);
+                        }
+                    }
+                }
             }
-            // cout << endl;
-            x=a;
-            if(x[j]=='.')swap(x[j],x[j+1]);
         }
-        // cout <<endl;
-        x=b;
-        if(x[i]=='.')swap(x[i],x[i+1]);
+        //return the ans vector
+        return ans;
     }
-    // cout <<endl;
-    return vector(st.begin(),st.end());
-}
 };
