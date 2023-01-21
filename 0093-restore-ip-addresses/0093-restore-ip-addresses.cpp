@@ -1,47 +1,53 @@
 class Solution {
-    bool valid(const string& s, int start, int length) {
-        return length == 1 || (s[start] != '0' && (length < 3 || s.substr(start, length) <= "255"));
-    }
-
-    void helper(const string& s, int startIndex, vector<int>& dots, vector<string>& ans) {
-        const int remainingLength = s.length() - startIndex;
-        const int remainingNumberOfIntegers = 4 - dots.size();
-
-        if (remainingLength > remainingNumberOfIntegers * 3 ||
-            remainingLength < remainingNumberOfIntegers) {
-            return;
-        }
-        if (dots.size() == 3) {
-            if (valid(s, startIndex, remainingLength)) {
-                string temp;
-                int last = 0;
-                for (int dot : dots) {
-                    temp.append(s.substr(last, dot));
-                    last += dot;
-                    temp.append(".");
-                }
-                temp.append(s.substr(startIndex));
-                ans.push_back(temp);
-            }
-            return;
-        }
-        for (int curPos = 1; curPos <= 3 && curPos <= remainingLength; ++curPos) {
-            // Append a dot at the current position.
-            dots.push_back(curPos);
-            // Try making all combinations with the remaining string.
-            if (valid(s, startIndex, curPos)) {
-                helper(s, startIndex + curPos, dots, ans);
-            }
-            // Backtrack, i.e. remove the dot to try placing it at the next position.
-            dots.pop_back();
-        }
-    }
-
 public:
-    vector<string> restoreIpAddresses(string s) {
-        vector<int> dots;
-        vector<string> ans;
-        helper(s, 0, dots, ans);
-        return ans;
+    bool valid(string s){
+    string x="";
+    for (int i = 0; i < s.size(); ++i) {
+        if(s[i]=='.'){
+            if(x.empty())return 0;
+            if(x.size()>1&& x[0]=='0')return 0;
+            long long a = stoll(x);
+            if(a>255)return 0;
+            x="";
+        }
+        else x+=s[i];
     }
+    if(x.empty())return 0;
+    if(x.size()>1&& x[0]=='0')return 0;
+    long long a = stoll(x);
+    if(a>255)return 0;
+    return 1;
+}
+vector<string> restoreIpAddresses(string s) {
+    vector<string> v;
+    if (s.size() > 12 || s.size() < 4)return v;
+    string x = "";
+    for (int i = 0; i < s.size(); ++i) {
+        x += s[i];
+        if (i < 3)x += '.';
+    }
+    int n = x.size();
+    set<string>st;
+    for (int i = 0; i < n -1; ++i) {
+        string b = x;
+        for (int j = 2; j < n - 1; ++j) {
+            string a = x;
+            // if(i>=j)continue;
+            for (int k = 4; k < n - 1; ++k) {
+                if(x[k]!='.')continue;
+                if(valid(x)==1)st.insert(x);
+                // cout << x <<" ";
+                swap(x[k],x[k+1]);
+            }
+            // cout << endl;
+            x=a;
+            if(x[j]=='.')swap(x[j],x[j+1]);
+        }
+        // cout <<endl;
+        x=b;
+        if(x[i]=='.')swap(x[i],x[i+1]);
+    }
+    // cout <<endl;
+    return vector(st.begin(),st.end());
+}
 };
