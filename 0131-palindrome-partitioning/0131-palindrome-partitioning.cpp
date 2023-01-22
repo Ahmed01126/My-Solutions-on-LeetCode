@@ -7,7 +7,7 @@ public:
     return true;
 }
 
-void backtracking(vector<vector<string>> &v, int i, string &s, vector<string> vs={}) {
+void backtracking(vector<vector<string>> &v, int i, string &s, vector<string> &vs) {
     if(i>=s.size())
         v.push_back(vs);
     for (int j = i; j < s.size(); ++j) {
@@ -21,7 +21,8 @@ void backtracking(vector<vector<string>> &v, int i, string &s, vector<string> vs
 
 vector<vector<string>> partition(string s) {
     vector<vector<string>>v;
-    backtracking(v,0,s);
+    vector<string >vs;
+    backtracking(v,0,s,vs);
     return v;
 }
 };
