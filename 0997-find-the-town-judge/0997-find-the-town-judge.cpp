@@ -6,7 +6,7 @@ public:
     int ans=1;
     for (int i = 0; i < trust.size(); ++i) {
         v[trust[i][1]]--;
-        v[trust[i][0]]=1e5;
+        v[trust[i][0]]=-(n+1);
         if(v[trust[i][1]]==-(n-1))ans= trust[i][1];
 
     }
