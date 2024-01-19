@@ -1,6 +1,6 @@
 class Solution {
 public:
-    long long dp[105][105];
+    int dp[105][105];
     int minPath(vector<vector<int>>& v,int n,int i,int j){
         if(j == n || j < 0)return 1e9;
         if(i==n)return 0;
