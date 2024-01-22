@@ -2,7 +2,7 @@ class Solution {
 public:
     vector<int> findErrorNums(vector<int>& nums) {
         vector<int>v;
-        map<int,int>mp;
+        int mp[10005]={};
         for(int i=0;i<nums.size();++i){
             mp[nums[i]]++;
             if(mp[nums[i]]==2)v.push_back(nums[i]);
