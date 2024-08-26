@@ -26,8 +26,7 @@ class Solution {
         for (Node child : root.children) {
             recursionFun(child);
         }
-        
-            list.add(root.val);
+        list.add(root.val);
 
     }
     public List<Integer> postorder(Node root) {
