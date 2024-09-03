@@ -1,10 +1,10 @@
 class Solution {
     public int getLucky(String s, int k) {
-        StringBuilder newS = new StringBuilder();
+        String newS ="";
         for (int i = 0; i < s.length(); i++) {
-            newS.append(s.charAt(i) - 'a' + 1);
+            newS += (s.charAt(i) - 'a' + 1);
         }
-        s = newS.toString();
+        s = newS;
         int sum = 0;
         while (k > 0) {
             sum = 0;
