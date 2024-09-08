@@ -20,6 +20,7 @@ class Solution {
             if (list.size() >= k) {
                 int reminder = list.size() % k;
                 res[0] = list.get(0);
+                list.clear();
                 for (int l = 0; l < k; l++) {
                     int x = sizeOfMostParts - 1;
                     x+=(reminder-- > 0)? 1:0;
